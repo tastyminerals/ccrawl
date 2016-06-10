@@ -5,6 +5,6 @@ The **CORPORA list** is open for information and questions about text corpora su
 
 **CORPORA list**: http://clu.uni.no/corpora/welcome.html
 
-Subscription page: http://clu.uni.no/corpora/sub.html
-Archives from October 2004: http://mailman.uib.no//public/corpora/
-Older archives: http://www.hit.uib.no/corpora/old.html
+- Subscription page: http://clu.uni.no/corpora/sub.html
+- Archives from October 2004: http://mailman.uib.no//public/corpora/
+- Older archives: http://www.hit.uib.no/corpora/old.html
