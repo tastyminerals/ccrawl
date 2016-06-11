@@ -10,8 +10,8 @@ The **CORPORA list** is open for information and questions about text corpora su
 - Older archives: http://www.hit.uib.no/corpora/old.html
 
 ### Screenshot:
-![enter image description here](http://i.imgur.com/fTfhrNJ.png "python2 ccrawl.py -f corpus")
-
+![](http://i.imgur.com/fTfhrNJ.png "python2 ccrawl.py -f corpus")
+![](http://i.imgur.com/GwCmUDx.png "python2 ccrawl.py -df medieval") 
 
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
