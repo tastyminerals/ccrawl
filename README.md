@@ -17,6 +17,7 @@ Depending on your choice this operation might take seconds or up to 20 min. **cc
 - To search CORPORA thread titles: `python2 ccrawl.py -f corpus`
 - To search CORPORA emails (available only if you performed deep sync): `python2 ccrawl.py -df corpus`
 - To add older archives (1995-2004): `python2 ccrawl.py -old`
+- To see a help message: `python2 ccrawl.py -h`
 
 ### Install:
 No installation needed.
