@@ -9,6 +9,11 @@ The **CORPORA list** is open for information and questions about text corpora su
 - Archives (October 2004 - present): http://mailman.uib.no//public/corpora/
 - Older archives: http://www.hit.uib.no/corpora/old.html
 
+### Screenshots:
+![](http://i.imgur.com/fTfhrNJ.png "python2 ccrawl.py -f corpus")
+
+![](http://i.imgur.com/GwCmUDx.png "python2 ccrawl.py -df medieval") 
+
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
 Before using the script you need to syncronize with the CORPORA first: `python2 ccrawl -sync`.
