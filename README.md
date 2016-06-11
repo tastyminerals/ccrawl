@@ -8,3 +8,16 @@ The **CORPORA list** is open for information and questions about text corpora su
 - Subscription page: http://clu.uni.no/corpora/sub.html
 - Archives (October 2004 - present): http://mailman.uib.no//public/corpora/
 - Older archives: http://www.hit.uib.no/corpora/old.html
+
+### Usage:
+**ccrawl** is a python script and can be run simply by `python2 ccrawl.py`.
+Before using the script you need to syncronize with the CORPORA first: `python2 ccrawl -sync`.
+Depending on your choice this operation might take seconds or up to 20 min. **ccrawl** will create a local copy of CORPORA `.corpora_list.pickle` which will be accessed each time you run the script. 
+
+To search CORPORA thread titles: `python2 ccrawl.py -f corpus`
+To search CORPORA emails (available only if you performed deep sync): `python2 ccrawl.py -df corpus`
+To add older archives (1995-2004): `python2 ccrawl.py -old`
+
+### Install:
+No installation needed.
+Make sure you have python2 installed on your system before running.
