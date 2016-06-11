@@ -44,7 +44,7 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
 YEARS = [str(year) for year in range(1995, 2017)]
 JUNK = r'|'.join(['\[ date \]', '\[ thread \]', '\[ subject \]', '\[ author \]',
-                  '\[Corpora-List\].*\n', '\n\n\n+', 'Previous message:.*\n',
+                  '\[Corpora-List\]', '\n\n\n+', 'Previous message:.*\n',
                   'Next message:.*\n', 'Messages sorted by:.*\n',
                   'More information about the Corpora-archive.*'])
 # http://mailman.uib.no//public/corpora/2016-June/thread.html
@@ -80,6 +80,7 @@ def load_db():
             sys.exit(1)
         if ans.lower()[0] != 'y':
             loaded_corpora = sync()
+            create_db(loaded_corpora)
             return loaded_corpora
         else:
             loaded_corpora = sync(True)
@@ -172,7 +173,7 @@ def sync(deep=False):
 def search(corpora):
     # Search CORPORA for keywords
     query = args.find or args.dfind
-    fresults = {}
+    fresults = []
     dfresults = []
     for thread, subject in corpora.items():
         header = '>>> {0}{1}{2}'.format(do.BOLD, thread[0], do.END)
@@ -187,23 +188,21 @@ def search(corpora):
                 found = re.search(query, line, flags=re.IGNORECASE)
                 if found:
                     if first:
-                        fresults[header] = []
+                        fresults.append('-' * len(header))
+                        fresults.append(header)
                         first = False
                     thr_str = ''.join([do.BRED, r'\1', do.END])
                     thr_found = re.sub('({0})'.format(query), thr_str,
                                        found.string, flags=re.IGNORECASE)
-                    fresults[header].append(thr_found)
+                    fresults.append(thr_found)
         elif args.dfind:
             for subj_url, body in subject.items():
                 if re.search(query, body, flags=re.IGNORECASE):
                     dfresults.append(subj_url)
     # sorting and printing the results
     # print -f results
-    for key in sorted(fresults, key=lambda x: x.split('/')[-2].split('-')[0]):
-        print '-' * len(key)
-        print key
-        for email in fresults[key]:
-            print email
+    for res in fresults:
+        print res
     # print -df results
     srt = [(res.split('/')[-2], res) for res in dfresults]
     for url in sorted(srt, key=lambda x: x[0]):
@@ -220,12 +219,14 @@ def main():
             corp = sync()
         create_db(corp)
         sys.exit()
-    # load local db
-    corp = load_db()
+
     if args.old:
         corp = _include_older(corp)
         create_db(corp)
         sys.exit()
+    if args.find or args.dfind:
+        # load local db
+        corp = load_db()
     search(corp)
 
 
