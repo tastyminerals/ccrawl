@@ -43,9 +43,9 @@ class do:
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
 YEARS = [str(year) for year in range(1995, 2017)]
-JUNK = r'|'.join(['\[ date \]', '\[ thread \]', '\[ subject \]', '\[ author \]', 
-                  '\[Corpora-List\]', '\n\n\n+', 'Previous message:.*\n', 
-                  'Next message:.*\n', 'Messages sorted by:.*\n', 
+JUNK = r'|'.join(['\[ date \]', '\[ thread \]', '\[ subject \]', '\[ author \]',
+                  '\[Corpora-List\].*\n', '\n\n\n+', 'Previous message:.*\n',
+                  'Next message:.*\n', 'Messages sorted by:.*\n',
                   'More information about the Corpora-archive.*'])
 # http://mailman.uib.no//public/corpora/2016-June/thread.html
 URLS = ['http://mailman.uib.no//public/corpora/{0}-{1}/{2}',
@@ -89,7 +89,7 @@ def load_db():
 def _include_older(corpora):
     # Retieve data from older archives
     # Start sync loop
-    print 'Retrieving CORPORA data from 1995-2004 (might take ~20 min!)...'
+    print 'Retrieving CORPORA data from 1995-2004 (might take ~25 min!)...'
     period = YEARS[:9]
     diff, complete = int(round(100 / len(period))), 100
     for i, year in enumerate(period):
@@ -172,7 +172,8 @@ def sync(deep=False):
 def search(corpora):
     # Search CORPORA for keywords
     query = args.find or args.dfind
-    results = []
+    fresults = {}
+    dfresults = []
     for thread, subject in corpora.items():
         header = '>>> {0}{1}{2}'.format(do.BOLD, thread[0], do.END)
         # search in a whole thread
@@ -180,22 +181,34 @@ def search(corpora):
                     for line in unicode(thread[1], 'utf-8').split('\n')
                     if line != u'\xc2\xa0' and line.strip() != '']
         first = True
-        for line in th_lines:
-            # search for user query match
-            found = re.search(query, line, flags=re.IGNORECASE)
-            if found and not args.dfind:
-                if first:
-                    print '-' * len(header)
-                    print header
-                    first = False
-                thr_str = ''.join([do.BRED, r'\1', do.END])
-                thr_found = re.sub('({0})'.format(query), thr_str,
-                                   found.string, flags=re.IGNORECASE)
-            if args.dfind and not args.find:
-                for subj_url, body in subject.items():
-                    if re.search(query, body, flags=re.IGNORECASE):
-                        print ">>> ", subj_url
-    
+        if not args.dfind:
+            for line in th_lines:
+                # search for user query match
+                found = re.search(query, line, flags=re.IGNORECASE)
+                if found:
+                    if first:
+                        fresults[header] = []
+                        first = False
+                    thr_str = ''.join([do.BRED, r'\1', do.END])
+                    thr_found = re.sub('({0})'.format(query), thr_str,
+                                       found.string, flags=re.IGNORECASE)
+                    fresults[header].append(thr_found)
+        elif args.dfind:
+            for subj_url, body in subject.items():
+                if re.search(query, body, flags=re.IGNORECASE):
+                    dfresults.append(subj_url)
+    # sorting and printing the results
+    # print -f results
+    for key in sorted(fresults, key=lambda x: x.split('/')[-2].split('-')[0]):
+        print '-' * len(key)
+        print key
+        for email in fresults[key]:
+            print email
+    # print -df results
+    srt = [(res.split('/')[-2], res) for res in dfresults]
+    for url in sorted(srt, key=lambda x: x[0]):
+        print '>>>', url[1]
+
 
 def main():
     if args.sync:
