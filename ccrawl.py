@@ -214,7 +214,6 @@ def main():
     if args.sync:
         ans = raw_input("Perform deep sync (include emails, might take ~25 min!)? (y/n): ")
         if ans.lower()[0] == 'y':
-            print 'DEEP'
             corp = sync(True)
         else:
             corp = sync()
