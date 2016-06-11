@@ -42,7 +42,7 @@ class do:
 
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
-YEARS = [str(year) for year in range(1995, 2017)]
+YEARS = [str(y) for y in range(1995, 2017)]
 JUNK = r'|'.join(['\[ date \]', '\[ thread \]', '\[ subject \]', '\[ author \]',
                   '\[Corpora-List\]', '\n\n\n+', 'Previous message:.*\n',
                   'Next message:.*\n', 'Messages sorted by:.*\n',
@@ -64,14 +64,14 @@ def show_completed(complete):
 
 def create_db(data):
     # Pickle retrived dict
-    pickle.dump(data, open( ".corpora_list.pickle", "wb" ))
+    pickle.dump(data, open(".corpora_list.pickle", "wb"))
     print "\nCORPORA-list has been stored!"
 
 
 def load_db():
     # Load pickled dict
     try:
-        loaded_corpora = pickle.load(open(".corpora_list.pickle", "rb" ))
+        loaded_corpora = pickle.load(open(".corpora_list.pickle", "rb"))
     except IOError:
         ans = raw_input("Local CORPORA-list not found, do you want to sync? (y/n): ")
         if ans.lower()[0] == 'y':
@@ -175,7 +175,10 @@ def search(corpora):
     query = args.find or args.dfind
     fresults = []
     dfresults = []
-    for thread, subject in corpora.items():
+    # sort corpora data by year
+    srt_corpora = sorted(corpora.items(),
+                         key=lambda x: x[0][0].split('/')[-2].split('-')[0])
+    for thread, subject in srt_corpora:
         header = '>>> {0}{1}{2}'.format(do.BOLD, thread[0], do.END)
         # search in a whole thread
         th_lines = [re.sub('  +|\t+', ' ', line.strip())
@@ -199,14 +202,12 @@ def search(corpora):
             for subj_url, body in subject.items():
                 if re.search(query, body, flags=re.IGNORECASE):
                     dfresults.append(subj_url)
-    # sorting and printing the results
     # print -f results
     for res in fresults:
         print res
     # print -df results
-    srt = [(res.split('/')[-2], res) for res in dfresults]
-    for url in sorted(srt, key=lambda x: x[0]):
-        print '>>>', url[1]
+    for url in dfresults:
+        print '>>>', url
 
 
 def main():
