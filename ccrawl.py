@@ -10,7 +10,7 @@ import re
 import pickle
 import subprocess as sb
 import sys
-
+from time import sleep
 
 try:
     import requests
@@ -44,7 +44,7 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
 YEARS = [str(y) for y in range(1995, 2017)]
 JUNK = r'|'.join(['\[ date \]', '\[ thread \]', '\[ subject \]', '\[ author \]',
-                  '\[Corpora-List\]', '\n\n\n+', 'Previous message:.*\n',
+                  '\[Corpora-List\]', 'Previous message:.*\n',
                   'Next message:.*\n', 'Messages sorted by:.*\n',
                   'More information about the Corpora-archive.*'])
 # http://mailman.uib.no//public/corpora/2016-June/thread.html
@@ -160,6 +160,8 @@ def sync(deep=False):
                 continue
             thread_text = re.sub(JUNK, '',
                                  threads_content.get_text().encode('utf-8'))
+            # fit title and author on one line
+            thread_text = re.sub(u'\n\xc2\xa0\n', '; ', thread_text)
             thread = (link, thread_text)
             corpora_data[thread] = {}
             if deep:
@@ -180,10 +182,11 @@ def search(corpora):
                          key=lambda x: x[0][0].split('/')[-2].split('-')[0])
     for thread, subject in srt_corpora:
         header = '>>> {0}{1}{2}'.format(do.BOLD, thread[0], do.END)
+        # preprocess thread data
+        thr = re.sub(r'\n\n\n+', '\n\n\n', thread[1])
         # search in a whole thread
-        th_lines = [re.sub('  +|\t+', ' ', line.strip())
-                    for line in unicode(thread[1], 'utf-8').split('\n')
-                    if line != u'\xc2\xa0' and line.strip() != '']
+        th_lines = [re.sub('  +|\t+', ' ', line.strip()) for line in unicode(thr, 'utf-8').split('\n\n\n')
+                    if line and line.startswith(' ') and line != ' ']
         first = True
         if not args.dfind:
             for line in th_lines:
@@ -211,10 +214,10 @@ def search(corpora):
 
 
 def main():
-    if args.sync:
+    if args.sync or not any([args.sync, args.find, args.dfind, args.old]):
         ans = raw_input("Perform deep sync (include emails, might take ~25 min!)? (y/n): ")
         if ans.lower()[0] == 'y':
-            print 'DEEP'
+            print 'deep sync...'
             corp = sync(True)
         else:
             corp = sync()
