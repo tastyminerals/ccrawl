@@ -16,7 +16,7 @@ The **CORPORA list** is open for information and questions about text corpora su
 
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
-Before using the script you need to syncronize with the CORPORA first: `python2 ccrawl -sync`.
+Before using the script you need to syncronize with the CORPORA first: `python2 ccrawl --sync`.
 Depending on your choice this operation might take seconds or up to 20 min. **ccrawl** will create a local copy of CORPORA `.corpora_list.pickle` which will be accessed each time you run the script. 
 
 - To search CORPORA thread titles: `python2 ccrawl.py -f corpus` or `python2 ccrawl.py -f "russian corpus"`
