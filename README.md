@@ -27,3 +27,6 @@ Depending on your choice this operation might take seconds or up to 20 min. **cc
 ### Install:
 No installation needed.
 Make sure you have python2 installed on your system before running.
+
+The script uses **requests** and **beautifulsoup4** libraries.
+
