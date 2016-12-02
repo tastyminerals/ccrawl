@@ -12,7 +12,7 @@ The **CORPORA list** is open for information and questions about text corpora su
 ### Screenshots:
 ![](http://i.imgur.com/oD1Vjqh.png "searching threads")
 
-![](http://i.imgur.com/GwCmUDx.png "searching emails") 
+![](http://i.imgur.com/fKUBNb8.png "searching emails") 
 
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
