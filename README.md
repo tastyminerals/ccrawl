@@ -10,9 +10,9 @@ The **CORPORA list** is open for information and questions about text corpora su
 - Older archives: http://www.hit.uib.no/corpora/old.html
 
 ### Screenshots:
-![searching threads](http://i.imgur.com/oD1Vjqh.png)
+![](http://i.imgur.com/oD1Vjqh.png "searching threads")
 
-![searching emails](http://i.imgur.com/GwCmUDx.png) 
+![](http://i.imgur.com/GwCmUDx.png "searching emails") 
 
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
