@@ -10,19 +10,38 @@ The **CORPORA list** is open for information and questions about text corpora su
 - Older archives: http://www.hit.uib.no/corpora/old.html
 
 ### Screenshots:
-![](http://i.imgur.com/fTfhrNJ.png "python2 ccrawl.py -f corpus")
+![search for a single word](http://i.imgur.com/oD1Vjqh.png "search for a single word")
 
-![](http://i.imgur.com/GwCmUDx.png "python2 ccrawl.py -df medieval") 
+![search for a phrase](http://i.imgur.com/GwCmUDx.png "search for a phrase") 
 
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
 Before using the script you need to syncronize with the CORPORA first: `python2 ccrawl --sync`.
 Depending on your choice this operation might take seconds or up to 20 min. **ccrawl** will create a local copy of CORPORA `.corpora_list.pickle` which will be accessed each time you run the script. 
 
-- To search CORPORA thread titles: `python2 ccrawl.py -f corpus` or `python2 ccrawl.py -f "russian corpus"`
-- To search CORPORA emails (available only if you performed deep sync): `python2 ccrawl.py -df corpus` or `python2 ccrawl.py -df "russian corpus"`
-- To add older archives (1995-2004): `python2 ccrawl.py -old`
-- To see help: `python2 ccrawl.py -h`
+- To search CORPORA thread titles: 
+```
+python2 ccrawl.py -f corpus
+```
+```
+python2 ccrawl.py -f "chinese corpus"
+```
+- To search CORPORA emails (available only if you performed deep sync):
+```
+python2 ccrawl.py -df corpus
+``` 
+```
+python2 ccrawl.py -df "chinese corpus"
+```
+
+- To add older archives (1995-2004): 
+```
+python2 ccrawl.py -old
+```
+- To see help: 
+```
+python2 ccrawl.py -h
+```
 
 ### Install:
 No installation needed.
