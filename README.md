@@ -10,9 +10,9 @@ The **CORPORA list** is open for information and questions about text corpora su
 - Older archives: http://www.hit.uib.no/corpora/old.html
 
 ### Screenshots:
-![search for a single word](http://i.imgur.com/oD1Vjqh.png "search for a single word")
+![searching threads](http://i.imgur.com/oD1Vjqh.png)
 
-![search for a phrase](http://i.imgur.com/GwCmUDx.png "search for a phrase") 
+![searching emails](http://i.imgur.com/GwCmUDx.png) 
 
 ### Usage:
 **ccrawl** is a python script and can be run simply by `python2 ccrawl.py` + some arguments.
